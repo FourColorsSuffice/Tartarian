@@ -1,0 +1,28 @@
+This file is a small example of using Neo4j with Tartarian.
+The script(1) creates the dependency graph of Jetty 9.2.x, 9.3.x and 9.4.x
+on JDK 1.7 and 1.8.
+The script(2) is equivalent to using #deprecated{JDK,1.8+} in Tartarian
+to query for the commit affecting Jetty releases, which depend on JDK1.8 onward.
+
+1) The Dependency Graph of Jetty can be created on Neo4j as
+CREATE(jetty:Project{name:"Jetty",location:"https://github.com/eclipse/jetty.project"})
+CREATE(rb94:Release{name:"9.4.x"})
+CREATE(rb93:Release{name:"9.3.x"})
+CREATE(rb92:Release{name:"9.2.x"})
+CREATE(jetty)-[b94:Branch]->(rb94)
+CREATE(jetty)-[b93:Branch]->(rb93)
+CREATE(jetty)-[b92:Branch]->(rb92)
+
+CREATE(jdk:Library{name:"JDK",location:"https://www.oracle.com/java/"})
+CREATE(v17:Version{name:"1.7"})
+CREATE(v18:Version{name:"1.8"})
+CREATE(jdk)-[l17:Launch]->(v17)
+CREATE(jdk)-[l18:Launch]->(v18)
+
+CREATE(rb94)-[drb94v18:Depends]->(v18)
+CREATE(rb93)-[drb93v18:Depends]->(v18)
+CREATE(rb92)-[drb92v17:Depends]->(v17)
+
+(2) #deprecated{JDK,1.8+} can be translated to Cypher as
+MATCH (r:Release)-[:Depends]->(v:Version)<-[:Launch]-(l:Library)
+WHERE l.name = "JDK" AND toFloat(v.name) >= 1.8  return r
