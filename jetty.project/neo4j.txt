@@ -14,14 +14,16 @@ CREATE(jetty)-[b93:Branch]->(rb93)
 CREATE(jetty)-[b92:Branch]->(rb92)
 
 CREATE(jdk:Library{name:"JDK",location:"https://www.oracle.com/java/"})
-CREATE(v17:Version{name:"1.7"})
-CREATE(v18:Version{name:"1.8"})
+CREATE(v17:Version{name:1.7})
+CREATE(v18:Version{name:1.8})
 CREATE(jdk)-[l17:Launch]->(v17)
 CREATE(jdk)-[l18:Launch]->(v18)
 
 CREATE(rb94)-[drb94v18:Depends]->(v18)
 CREATE(rb93)-[drb93v18:Depends]->(v18)
 CREATE(rb92)-[drb92v17:Depends]->(v17)
+
+MATCH(n) DETACH DELETE n;
 
 (2) #deprecated{JDK,1.8+} can be translated to Cypher as
 MATCH (r:Release)-[:Depends]->(v:Version)<-[:Launch]-(l:Library)
