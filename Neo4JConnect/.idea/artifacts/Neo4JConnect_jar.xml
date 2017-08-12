@@ -1,0 +1,10 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="Neo4JConnect:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/Neo4JConnect_jar</output-path>
+    <root id="archive" name="Neo4JConnect.jar">
+      <element id="module-output" name="Neo4JConnect" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/libs/neo4j-jdbc-driver-3.1.0.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/libs/mysql-connector-java-5.1.43.jar" path-in-jar="/" />
+    </root>
+  </artifact>
+</component>
